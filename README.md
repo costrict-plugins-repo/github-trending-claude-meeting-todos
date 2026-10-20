@@ -1,0 +1,139 @@
+# claude-meeting-todos
+
+
+<!-- mycelium-badges:start -->
+
+<p>
+  <a href="https://github.com/adelaidasofia/claude-meeting-todos/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/adelaidasofia/claude-meeting-todos?color=blue"></a>
+  <a href="https://github.com/adelaidasofia/claude-meeting-todos/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/adelaidasofia/claude-meeting-todos?color=eab308"></a>
+  <a href="https://github.com/adelaidasofia/claude-meeting-todos/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/adelaidasofia/claude-meeting-todos"></a>
+  <a href="https://github.com/adelaidasofia/claude-meeting-todos/issues"><img alt="Open issues" src="https://img.shields.io/github/issues/adelaidasofia/claude-meeting-todos"></a>
+  <a href="https://myceliumai.co"><img alt="Built by Mycelium AI" src="https://img.shields.io/badge/built_by-Mycelium_AI-15B89A"></a>
+</p>
+
+<!-- mycelium-badges:end -->
+
+A Claude Code plugin that extracts action items from meeting notes or transcripts and adds them to your to-do file. Separates your tasks from others' tasks, flags pending decisions, and confirms before writing.
+
+---
+
+## What it does
+
+After a meeting, you run `/meeting-todos`. The skill:
+
+1. Finds the most recent meeting note (or one you specify by date/title)
+2. Reads the notes or transcript
+3. Extracts your action items, separates them from others' tasks, and flags decisions still pending
+4. Shows you a preview and waits for confirmation
+5. Appends the items to your to-do file in the format you already use
+
+The point is to never lose an action item to "I'll write that down later" — and to never let the conversation die in a notebook nobody opens.
+
+---
+
+## Install
+
+Open Claude Code, paste:
+
+    /plugin marketplace add adelaidasofia/claude-meeting-todos
+    /plugin install claude-meeting-todos@claude-meeting-todos
+
+Then in any Claude Code session:
+
+```
+/meeting-todos
+```
+
+On first use, Claude asks where your meeting notes live and where your to-do file is. Takes 30 seconds, never asks again.
+
+<details>
+<summary>Legacy install</summary>
+
+```bash
+claude plugin add github.com/adelaidasofia/claude-meeting-todos
+```
+
+</details>
+
+---
+
+## Requirements
+
+- Claude Code
+- A folder where meeting notes are saved as markdown
+- A to-do file (any format)
+
+**Optional integrations:**
+- Google Workspace MCP — pull from Google Docs (e.g. Gemini Notes meeting transcripts)
+- Granola, Otter, Fireflies, Read.ai — any tool that exports markdown to a folder works the same way
+- The daily-journal plugin — if installed, action items can also flow into your journal's accountability check
+
+---
+
+## Configuration
+
+On first use, preferences are saved to `[VAULT]/.meeting-todos-prefs.md`:
+
+```markdown
+meeting_folder: Meeting Notes/
+todo_path: TODO.md
+meeting_source_integration: none
+```
+
+Edit this file anytime to change your setup.
+
+---
+
+## How action items are extracted
+
+**Your tasks** — anything where you were directly assigned, volunteered, or own the follow-up.
+
+**Others' tasks** — assigned to someone else. Listed for visibility, NOT added to your to-do.
+
+**Decisions pending** — unresolved questions surfaced for follow-up.
+
+The skill writes them in the format your to-do file already uses (sectioned by meeting), without duplicating items already present and without reordering anything.
+
+---
+
+## Why a separate skill (vs. a generic to-do tool)
+
+Most to-do tools assume the input is already a clean list. Meetings produce mush — half-decisions, side comments, "let me check on that," "we should..." Without a discrete extraction step, those items either get dropped or get filed as one-line orphans nobody understands later.
+
+This skill makes the extraction visible: you see what got pulled before it lands in your to-do, and the items are sectioned by meeting so context isn't lost.
+
+---
+
+## Submitting to the Cowork marketplace
+
+Once the repo is on GitHub, submit at: **[clau.de/plugin-directory-submission](https://clau.de/plugin-directory-submission)**
+
+For the community marketplace:
+
+```bash
+claude plugin marketplace add anthropics/claude-plugins-community
+```
+
+---
+
+
+## Telemetry
+
+This plugin sends a single anonymous install signal to `myceliumai.co` the first time it loads in a Claude Code session on a given machine.
+
+**What is sent:**
+- Plugin name (e.g. `slack-mcp`)
+- Plugin version (e.g. `0.1.0`)
+
+**What is NOT sent:**
+- No user identifiers, names, emails, tokens, or API keys
+- No file paths, message content, or anything from your work
+- No IP address is stored after dedup processing
+
+**Why:** Helps the maintainer know which plugins people actually install, so attention goes to the ones that get used.
+
+**Opt out:** Set the environment variable `MYCELIUM_NO_PING=1` before launching Claude Code. The hook will skip the network call entirely. Already-pinged installs leave a sentinel at `~/.mycelium/onboarded-<plugin>` — delete it if you want to reset state.
+
+## License
+
+MIT

@@ -1,0 +1,11 @@
+{
+  "name": "claude-meeting-todos",
+  "description": "Extracts action items from meeting notes or transcripts and adds them to your to-do file. Separates your tasks from others' tasks, flags pending decisions, and confirms before writing.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mycelium AI",
+    "url": "https://myceliumai.co"
+  },
+  "repository": "https://github.com/adelaidasofia/claude-meeting-todos",
+  "license": "MIT"
+}
